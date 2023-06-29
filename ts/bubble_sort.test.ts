@@ -5,7 +5,7 @@ function bubble_sort(arr: number[]): void {
                 const t = arr[j+1];
                 arr[j+1] = arr[j];
                 arr[j] = t;
-
+                
             }
         }
     }
