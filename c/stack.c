@@ -28,7 +28,7 @@ typedef struct Stack {
 Node* new_node(int value) {
     Node* n = malloc(sizeof(Node));
     n->value = value;
-
+    n->next = NULL;
     return (n);
 }
 
@@ -56,7 +56,7 @@ bool pop(Stack* s) {
 }
 
 void delete_stack(Stack* s) {
-    while (s->length > 0) {
+    while (s->head != NULL) {
         pop(s);
     }
 }
@@ -74,6 +74,14 @@ void push(Stack* s, Node* n) {
     }
 }
 
+int peek(Stack* s) {
+    if (s->length == 0) {
+        return -1;
+    }
+
+    return s->head->value;
+}
+
 int main() {
     Stack* s = new_stack();
 
@@ -83,35 +91,44 @@ int main() {
     Node* d = new_node(13);
 
     push(s, a);
-    printf("the value at the top of the stack is: %d\n", s->head->value);
+    printf("the value at the top of the stack is: %d\n", peek(s));
     printf("the length of the stack is: %d\n", s->length);
     push(s, b);
-    printf("the value at the top of the stack is: %d\n", s->head->value);
+    printf("the value at the top of the stack is: %d\n", peek(s));
     printf("the length of the stack is: %d\n", s->length);
     push(s, c);
-    printf("the value at the top of the stack is: %d\n", s->head->value);
+    printf("the value at the top of the stack is: %d\n", peek(s));
     printf("the length of the stack is: %d\n", s->length);
     push(s, d);
-    printf("the value at the top of the stack is: %d\n", s->head->value);
+    printf("the value at the top of the stack is: %d\n", peek(s));
     printf("the length of the stack is: %d\n", s->length);
 
-    bool res = pop(s);
-    printf("the value at the top of the stack is: %d\n", s->head->value);
-    printf("the length of the stack is: %d\n", s->length);
+    // bool res = pop(s);
+    // printf("the value at the top of the stack is: %d\n", peek(s));
+    // printf("the length of the stack is: %d\n", s->length);
 
-    res = pop(s);
-    printf("the value at the top of the stack is: %d\n", s->head->value);
-    printf("the length of the stack is: %d\n", s->length);
+    // res = pop(s);
+    // printf("the value at the top of the stack is: %d\n", peek(s));
+    // printf("the length of the stack is: %d\n", s->length);
 
-    res = pop(s);
-    printf("the value at the top of the stack is: %d\n", s->head->value);
-    printf("the length of the stack is: %d\n", s->length);
+    // res = pop(s);
+    // printf("the value at the top of the stack is: %d\n", peek(s));
+    // printf("the length of the stack is: %d\n", s->length);
 
-    res = pop(s);
-    printf("the value at the top of the stack is: %d\n", s->head->value);
-    printf("the length of the stack is: %d\n", s->length);
+    // res = pop(s);
+    // printf("the value at the top of the stack is: %d\n", peek(s));
+    // printf("the length of the stack is: %d\n", s->length);
+    // res = pop(s);
+    // printf("the value at the top of the stack is: %d\n", peek(s));
+    // printf("the length of the stack is: %d\n", s->length);
+    // res = pop(s);
+    // printf("the value at the top of the stack is: %d\n", peek(s));
+    // printf("the length of the stack is: %d\n", s->length);
+    // res = pop(s);
+    // printf("the value at the top of the stack is: %d\n", peek(s));
+    // printf("the length of the stack is: %d\n", s->length);
 
-    // delete_stack(s);
+    delete_stack(s);
 
     return (0);
 }
