@@ -17,7 +17,7 @@ pop:  len = 0 /[A]/
 
 typedef struct Node {
     int          value;
-    struct Node* next;
+    struct Node* prev;
 } Node;
 
 typedef struct Stack {
@@ -28,7 +28,7 @@ typedef struct Stack {
 Node* new_node(int value) {
     Node* n = malloc(sizeof(Node));
     n->value = value;
-    n->next = NULL;
+    n->prev = NULL;
     return (n);
 }
 
@@ -47,7 +47,7 @@ bool pop(Stack* s) {
         if (s->length == 1) {
             s->head = NULL;
         } else {
-            s->head = n->next;
+            s->head = n->prev;
         }
         free(n);
         s->length--;
@@ -67,7 +67,7 @@ void push(Stack* s, Node* n) {
         s->length++;
     } else {
         // make the old head point to what will be the new head
-        n->next = s->head;
+        n->prev = s->head;
         // make the head point to n now
         s->head = n;
         s->length++;
