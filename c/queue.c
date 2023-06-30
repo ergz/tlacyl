@@ -9,15 +9,52 @@ typedef struct Node {
     struct Node* next;
 } Node;
 
-typedef struct {
+typedef struct Queue {
     Node* head;
     Node* tail;
     int   length;
 } Queue;
 
-// void enqueue(Queue q) {}
+typedef struct ArrayQueue {
+    Node* head;
+    Node* tail;
+    int   length;
+    Node* data[MAX_LEN];
+} ArrayQueue;
 
-// void enqueue(Queue q) {}
+ArrayQueue* new_array_queue() {
+    ArrayQueue* a_q = malloc(sizeof(ArrayQueue));
+    a_q->head = NULL;
+    a_q->tail = NULL;
+    for (int i = 0; i < MAX_LEN; i++) {
+        a_q->data[i] = NULL;
+    }
+    a_q->length = 0;
+
+    return (a_q);
+}
+
+void arr_enqueue(ArrayQueue* a, Node* n) {
+    if (a->length == 0) {
+        a->head = n;
+        a->tail = n;
+        a->data[a->length] = n;
+        a->length++;
+    } else {
+        a->tail = n;
+        a->data[a->length] = n;
+        a->length++;
+    }
+}
+
+// not a very good idea, this will require a O(n) walk through the array to
+// shift everything to the left
+bool arr_dequeue(ArrayQueue* a) {
+    if (a->length == 0) {
+        return false;
+    } else {
+    }
+}
 
 void enqueue(Queue* q, Node* n) {
     if (q->length == 0) {
@@ -52,6 +89,12 @@ Node* new_node(int value) {
     n->value = value;
     n->next = NULL;
     return n;
+}
+
+void free_node(Node* n) {
+    if (n != NULL) {
+        free(n);
+    }
 }
 
 Node* peek(Queue* q) { return q->head; }
