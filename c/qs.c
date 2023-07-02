@@ -24,22 +24,22 @@ int partition(int arr[], int lo, int hi) {
     idx++;
     arr[hi] = arr[idx];
     arr[idx] = pivot_value;
+
+    return (idx);
 }
 
 void quick_sort(int arr[], int lo, int hi) {
-    if (lo >= hi) {
-        printf("error!");
+    if (lo < hi) {
+        int current_pivot = partition(arr, lo, hi);
+        quick_sort(arr, lo, current_pivot - 1);
+        quick_sort(arr, current_pivot + 1, hi);
     }
-
-    int current_pivot = partition(arr, lo, hi);
-    quick_sort(arr, lo, current_pivot - 1);
-    quick_sort(arr, current_pivot + 1, hi);
 }
 
 int main() {
     int array_len = 5;
     int arr[5] = {5, 4, 3, 2, 1};
-    quick_sort(arr, 0, array_len);
+    quick_sort(arr, 0, array_len - 1);
 
     printf("[ ");
     for (int i = 0; i < array_len; i++) {
