@@ -39,11 +39,12 @@ Stack* new_stack() {
     return (s);
 }
 
-bool pop(Stack* s) {
+int pop(Stack* s) {
     if (s->length == 0) {
         return false;
     } else {
         Node* n = s->head;
+        int   val = n->value;
         if (s->length == 1) {
             s->head = NULL;
         } else {
@@ -51,7 +52,7 @@ bool pop(Stack* s) {
         }
         free(n);
         s->length--;
-        return true;
+        return val;
     }
 }
 
@@ -103,32 +104,23 @@ int main() {
     printf("the value at the top of the stack is: %d\n", peek(s));
     printf("the length of the stack is: %d\n", s->length);
 
-    // bool res = pop(s);
-    // printf("the value at the top of the stack is: %d\n", peek(s));
-    // printf("the length of the stack is: %d\n", s->length);
+    printf("the value at the top of the stack is: %d\n", pop(s));
+    printf("the length of the stack is: %d\n", s->length);
 
-    // res = pop(s);
-    // printf("the value at the top of the stack is: %d\n", peek(s));
-    // printf("the length of the stack is: %d\n", s->length);
+    printf("the value at the top of the stack is: %d\n", pop(s));
+    printf("the length of the stack is: %d\n", s->length);
 
-    // res = pop(s);
-    // printf("the value at the top of the stack is: %d\n", peek(s));
-    // printf("the length of the stack is: %d\n", s->length);
+    printf("the value at the top of the stack is: %d\n", pop(s));
+    printf("the length of the stack is: %d\n", s->length);
 
-    // res = pop(s);
-    // printf("the value at the top of the stack is: %d\n", peek(s));
-    // printf("the length of the stack is: %d\n", s->length);
-    // res = pop(s);
-    // printf("the value at the top of the stack is: %d\n", peek(s));
-    // printf("the length of the stack is: %d\n", s->length);
-    // res = pop(s);
-    // printf("the value at the top of the stack is: %d\n", peek(s));
-    // printf("the length of the stack is: %d\n", s->length);
-    // res = pop(s);
-    // printf("the value at the top of the stack is: %d\n", peek(s));
-    // printf("the length of the stack is: %d\n", s->length);
-
-    delete_stack(s);
+    printf("the value at the top of the stack is: %d\n", pop(s));
+    printf("the length of the stack is: %d\n", s->length);
+    printf("the value at the top of the stack is: %d\n", pop(s));
+    printf("the length of the stack is: %d\n", s->length);
+    printf("the value at the top of the stack is: %d\n", pop(s));
+    printf("the length of the stack is: %d\n", s->length);
+    printf("the value at the top of the stack is: %d\n", pop(s));
+    printf("the length of the stack is: %d\n", s->length);
 
     return (0);
 }
