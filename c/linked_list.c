@@ -85,6 +85,7 @@ int get_length(LinkedList* list) {
 }
 
 void destroy_list(LinkedList* list) {
+    // if any nodes are in list destroy them first
     if (list->length > 0) {
         Node* current_node = list->head;
         while (current_node != NULL) {
@@ -94,6 +95,7 @@ void destroy_list(LinkedList* list) {
         }
     }
 
+    // then destroy the list struct itself
     free(list);
 }
 
