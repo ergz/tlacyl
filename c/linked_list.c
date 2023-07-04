@@ -29,6 +29,18 @@ Node* new_node(int value) {
 }
 
 // append - insert a node at the end of the linked list
+void append(LinkedList* list, Node* n) {
+    if (list->length == 0) {
+        list->head = n;
+        list->tail = n;
+        list->length++;
+    } else {
+        list->tail->next = n;
+        n->prev = list->tail;
+        list->tail = n;
+        list->length++;
+    }
+}
 
 // prepend - insert a node at the front of the linked list
 void preppend(LinkedList* list, Node* node) {
@@ -39,8 +51,50 @@ void preppend(LinkedList* list, Node* node) {
     } else {
         list->head->prev = node;
         node->next = list->head;
+        // prev is already initialized to NULL so no need to add that here
         list->head = node;
+        list->length++;
     }
+}
+
+// insert at - insert a node at a given index
+void insert_at(LinkedList* list, Node* node, int index) {
+    if (index == 0) {
+        preppend(list, node);
+    } else if (index == list->length) {
+        append(list, node);
+    } else if (index > list->length || index < 0) {
+        printf("ERROR: cannot add to list at index position %d, this is beyond the current index\n", index);
+    } else {
+        Node* current_node_at_index = list->head;
+        // get to the ith node
+        for (int i = 0; i < index; i++) {
+            current_node_at_index = current_node_at_index->next;
+        }
+
+        node->prev = current_node_at_index->prev;
+        node->next = current_node_at_index;
+        current_node_at_index->prev->next = node;
+        current_node_at_index->prev = node;
+        list->length++;
+    }
+}
+
+int get_length(LinkedList* list) {
+    return (list->length);
+}
+
+void destroy_list(LinkedList* list) {
+    if (list->length > 0) {
+        Node* current_node = list->head;
+        while (current_node != NULL) {
+            Node* next_node = current_node->next;
+            free(current_node);
+            current_node = next_node;
+        }
+    }
+
+    free(list);
 }
 
 void print_list(LinkedList* list) {
@@ -50,26 +104,29 @@ void print_list(LinkedList* list) {
         printf("%d ", curr->value);
         curr = curr->next;
     }
-    printf("]\n");
+    printf("] <length: %d>\n", get_length(list));
 }
-
-int get_size_list(LinkedList* list) {
-    return 0;
-}
-
-// insert at - insert a node at a given index
 
 int main() {
     LinkedList* list = new_linked_list();
     Node*       a = new_node(10);
     Node*       b = new_node(11);
-    append(list, a);
-    append(list, b);
-    append(list, new_node(12));
-    append(list, new_node(13));
-    append(list, new_node(14));
-    append(list, new_node(15));
+    preppend(list, a);
+    preppend(list, b);
+    preppend(list, new_node(12));
+    preppend(list, new_node(13));
+    preppend(list, new_node(14));
+    preppend(list, new_node(15));
+
+    append(list, new_node(100));
+    append(list, new_node(200));
 
     print_list(list);
+    insert_at(list, new_node(-1), 0);
+    insert_at(list, new_node(-1), 4);
+    print_list(list);
+
+    destroy_list(list);
+
     return (0);
 }
