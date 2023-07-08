@@ -5,9 +5,9 @@
 // of it and everything greater than it on the right
 int partition(int arr[], int lo, int hi) {
     int pivot_value = arr[hi];
-    int idx = -1;  // this will keep track of current location of values less then the pivot
+    int idx = lo - 1;  // this will keep track of current location of values less then the pivot
 
-    for (int i = 0; i < hi; i++) {
+    for (int i = lo; i < hi; i++) {
         if (arr[i] <= pivot_value) {
             idx++;
 
