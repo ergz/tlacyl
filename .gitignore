@@ -1,1 +1,6 @@
 node_modules/*
+*.exe
+*.pdf
+*.obj
+*.ilk
+*.out

@@ -3,7 +3,7 @@
     "tasks": [
       {
         "type": "shell",
-        "label": "C/C++: cl.exe build active file",
+        "label": "C/C++: build active file",
         "windows": {
           "command": "cl.exe",
           "args": [

@@ -80,17 +80,16 @@ void insert_at(LinkedList *list, Node *node, int index) {
     }
 }
 
-void remove_at_end(LinkedList* list) {
+void remove_at_end(LinkedList *list) {
     if (list->length == 0) {
         printf("ERROR: cannot remove from an empty list\n");
     } else {
-        Node* node_to_remove = list->tail;
+        Node *node_to_remove = list->tail;
         list->tail = node_to_remove->prev;
         list->tail->next = NULL;
         free(node_to_remove);
     }
 }
-
 
 int get_length(LinkedList *list) {
     return (list->length);
@@ -121,16 +120,16 @@ void print_list(LinkedList *list) {
     printf("] <length: %d>\n", get_length(list));
 }
 
-LinkedList* new_list_from_array(int arr[], int length) {
+LinkedList *new_list_from_array(int arr[], int length) {
     if (length == 0) {
         printf("ERROR: i mean c'mon");
     }
-    LinkedList* list = new_linked_list();
-    Node*       n = new_node(arr[1]);
+    LinkedList *list = new_linked_list();
+    Node       *n = new_node(arr[1]);
     list->head = n;
     list->length++;
     for (int i = 1; i < length; i++) {
-        Node* n = new_node(arr[i]);
+        Node *n = new_node(arr[i]);
         append(list, n);
     }
 
@@ -138,10 +137,10 @@ LinkedList* new_list_from_array(int arr[], int length) {
 }
 
 int main() {
-    LinkedList* list = new_linked_list();
+    LinkedList *list = new_linked_list();
 
-    Node* a = new_node(10);
-    Node* b = new_node(11);
+    Node *a = new_node(10);
+    Node *b = new_node(11);
     preppend(list, a);
     print_list(list);
     preppend(list, b);
@@ -181,11 +180,7 @@ int main() {
     print_list(list);
     remove_at_end(list);
     print_list(list);
-
-    int first_node_val = get_val(list, 1);
-    printf("the value at the first node is: %d\n", first_node_val);
     destroy_list(list);
 
     return (0);
 }
-
