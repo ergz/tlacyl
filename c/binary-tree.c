@@ -43,11 +43,13 @@ void push(Stack* stack, Node* node) {
     }
 }
 
-void pop(Stack* stack) {
+int pop(Stack* stack) {
     if (stack->len > 0) {
         Node* node = stack->head;
+        int   node_val = node->value;
         stack->head = node->prev;
         free(node);
+        return (node_val);
     }
 }
 
@@ -109,12 +111,28 @@ void print_binary_tree(IntBinaryNode* node) {
 }
 
 void walk_tree(IntBinaryNode* current_node, Stack* stack) {
-    if (current_node->left != NULL && current_node->right != NULL) {
+    if (current_node->left == NULL && current_node->right == NULL) {
+        printf("looking at value: %d\n", current_node->value);
+        push(stack, new_node(current_node->value));
+    } else {
         printf("looking at value: %d\n", current_node->value);
         push(stack, new_node(current_node->value));
 
         walk_tree(current_node->left, stack);
         walk_tree(current_node->right, stack);
+    }
+}
+
+void print_stack(Stack* stack) {
+    if (stack->len == 0) {
+        printf("empty stack\n");
+    } else {
+        printf("[ ");
+        while (stack->len > 0) {
+            int res = pop(stack);
+            printf("%d ", res);
+        }
+        printf("]\n");
     }
 }
 
@@ -140,6 +158,8 @@ int main() {
     walk_tree(root_node, stack);
 
     printf("the len of the stack is %d\n", stack->len);
+    print_stack(stack);
+    free(stack);
 
     return (0);
 }
