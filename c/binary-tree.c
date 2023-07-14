@@ -4,6 +4,11 @@ search algorithms but uses built in javascript data structures
 to jump a bunch of steps, here I write everything from scratch
  */
 
+/*
+next challenge to is write a function to read in a json file and
+parse it as a tree???
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -30,6 +35,10 @@ Node* new_node(int value) {
     n->value = value;
 
     return (n);
+}
+
+void json_file_to_tree(char* filepath) {
+    // TODO!!!!
 }
 
 void push(Stack* stack, Node* node) {
