@@ -81,6 +81,7 @@ void q_add_node(Q* q, QNode* node) {
 void q_remove_node(Q* q) {
     QNode* n = q->head;
     q->head = n->next;
+    q->length--;
     free(n);
 }
 
