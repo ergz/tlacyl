@@ -5,12 +5,12 @@
 typedef struct QNode {
     int           value;
     struct QNode* next;
-    struct QNode* prev;
 } QNode;
 
 typedef struct Q {
     QNode* head;
     QNode* tail;
+    int    length;
 } Q;
 
 typedef struct TreeNode {
@@ -35,7 +35,6 @@ TreeNode* new_tree_node(int value) {
 QNode* new_qnode(int value) {
     QNode* node = malloc(sizeof(QNode));
     node->next = NULL;
-    node->prev = NULL;
     node->value = value;
 
     return (node);
@@ -63,6 +62,26 @@ void add_child_right(TreeNode* parent, TreeNode* node) {
     } else {
         parent->right = node;
     }
+}
+
+// always add at tail
+void q_add_node(Q* q, QNode* node) {
+    if (q->length == 0) {
+        q->head = node;
+        q->tail = node;
+        q->length++;
+    } else {
+        q->tail->next = node;
+        q->tail = node;
+        q->length++;
+    }
+}
+
+// always remove from head
+void q_remove_node(Q* q) {
+    QNode* n = q->head;
+    q->head = n->next;
+    free(n);
 }
 
 /*
