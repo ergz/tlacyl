@@ -25,7 +25,7 @@ typedef struct Stack {
 Stack* new_stack() {
     Stack* s = malloc(sizeof(Stack));
     s->head = NULL;
-    s->head = 0;
+    s->len = 0;
     return (s);
 }
 
@@ -57,9 +57,12 @@ int pop(Stack* stack) {
         Node* node = stack->head;
         int   node_val = node->value;
         stack->head = node->prev;
+        stack->len--;
         free(node);
         return (node_val);
     }
+
+    return (-9999);
 }
 
 typedef struct IntBinaryNode {
@@ -70,6 +73,8 @@ typedef struct IntBinaryNode {
 
 IntBinaryNode* new_int_binary_node(int value) {
     IntBinaryNode* n = malloc(sizeof(IntBinaryNode));
+    n->left = NULL;
+    n->right = NULL;
     n->value = value;
 
     return (n);
