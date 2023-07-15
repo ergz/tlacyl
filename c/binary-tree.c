@@ -124,16 +124,33 @@ void print_binary_tree(IntBinaryNode* node) {
     }
 }
 
-void walk_tree(IntBinaryNode* current_node, Stack* stack) {
+void walk_tree_pre_order(IntBinaryNode* current_node, Stack* stack) {
     if (current_node->left == NULL && current_node->right == NULL) {
-        printf("looking at value: %d\n", current_node->value);
         push(stack, new_node(current_node->value));
     } else {
-        printf("looking at value: %d\n", current_node->value);
         push(stack, new_node(current_node->value));
+        walk_tree_pre_order(current_node->left, stack);
+        walk_tree_pre_order(current_node->right, stack);
+    }
+}
 
-        walk_tree(current_node->left, stack);
-        walk_tree(current_node->right, stack);
+void walk_tree_post_order(IntBinaryNode* current_node, Stack* stack) {
+    if (current_node->left == NULL && current_node->right == NULL) {
+        push(stack, new_node(current_node->value));
+    } else {
+        walk_tree_pre_order(current_node->left, stack);
+        walk_tree_pre_order(current_node->right, stack);
+        push(stack, new_node(current_node->value));
+    }
+}
+
+void walk_tree_in_order(IntBinaryNode* current_node, Stack* stack) {
+    if (current_node->left == NULL && current_node->right == NULL) {
+        push(stack, new_node(current_node->value));
+    } else {
+        walk_tree_pre_order(current_node->left, stack);
+        push(stack, new_node(current_node->value));
+        walk_tree_pre_order(current_node->right, stack);
     }
 }
 
@@ -169,11 +186,19 @@ int main() {
     add_child_node(root_node->right, new_int_binary_node(77), 'r');
 
     Stack* stack = new_stack();
-    walk_tree(root_node, stack);
+    Stack* post_stack = new_stack();
+    Stack* in_order_stack = new_stack();
+    walk_tree_pre_order(root_node, stack);
+    walk_tree_post_order(root_node, post_stack);
+    walk_tree_in_order(root_node, in_order_stack);
 
     printf("the len of the stack is %d\n", stack->len);
     print_stack(stack);
+    print_stack(post_stack);
+    print_stack(in_order_stack);
     free(stack);
+    free(post_stack);
+    free(in_order_stack);
 
     return (0);
 }
