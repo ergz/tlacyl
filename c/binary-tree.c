@@ -167,6 +167,22 @@ void print_stack(Stack* stack) {
     }
 }
 
+void print_stack_v2(Stack* stack) {
+    if (stack->len == 0) {
+        printf("ERROR: empty stack\n");
+    } else {
+        printf("[ ");
+        int   counter = 0;
+        Node* curr = stack->head;
+        while (counter < stack->len) {
+            printf("%d ", curr->value);
+            curr = curr->prev;
+            counter++;
+        }
+        printf(" ]\n");
+    }
+}
+
 int main() {
     /* lets create the following tree
                 12
@@ -192,10 +208,12 @@ int main() {
     walk_tree_post_order(root_node, post_stack);
     walk_tree_in_order(root_node, in_order_stack);
 
-    printf("the len of the stack is %d\n", stack->len);
-    print_stack(stack);
-    print_stack(post_stack);
-    print_stack(in_order_stack);
+    printf("pre order:  ", stack->len);
+    print_stack_v2(stack);
+    printf("in order:   ", stack->len);
+    print_stack_v2(post_stack);
+    printf("post order: ", stack->len);
+    print_stack_v2(in_order_stack);
     free(stack);
     free(post_stack);
     free(in_order_stack);
