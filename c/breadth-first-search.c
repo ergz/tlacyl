@@ -98,6 +98,9 @@ TreeNode* q_remove_node(Q* q) {
 }
 
 /*
+
+[10, 5, 7, 12, 8, 88, 14]
+
                 10
             5        7
         12    8    88    14
@@ -110,11 +113,14 @@ bool bf_search(Tree tree, int value) {
     QNode* n = new_qnode(tree.root);
     q_add_node(search_path, n);
     TreeNode* current_value;
+    int       count_iterations = 1;
     while (search_path->length > 0) {
+        count_iterations++;
         current_value = q_remove_node(search_path);
 
         if (current_value->value == value) {
             free(search_path);
+            printf("total itarations: %d\n", count_iterations);
             return (true);
         }
 
@@ -125,13 +131,45 @@ bool bf_search(Tree tree, int value) {
             q_add_node(search_path, new_qnode(current_value->right));
         }
     }
+    printf("total itarations: %d\n", count_iterations);
     free(search_path);
     return (false);
 }
 
+bool is_leaf(TreeNode* a) {
+    if (a->left == NULL && a->right == NULL) {
+        return (true);
+    } else {
+        return (false);
+    }
+}
+
+// determine if two trees are equal
+bool tree_equal(TreeNode* root_a, TreeNode* root_b) {
+    if (is_leaf(root_a) && is_leaf(root_b)) {
+        return (true);
+    }
+
+    if (is_leaf(root_a) || is_leaf(root_b)) {
+        return (false);
+    }
+
+    if (root_a->value != root_b->value) {
+        return (false);
+    }
+
+    return (tree_equal(root_a->left, root_b->left) && tree_equal(root_a->right, root_b->right));
+}
+
+/*
+The reason for choose the Q as the data strucuture to keep track
+of the search path is to
+ */
 int main() {
     TreeNode* root = new_tree_node(10);
+    TreeNode* root2 = new_tree_node(10);
     Tree*     tree = new_tree(root);
+    Tree*     tree2 = new_tree(root);
 
     add_child_left(root, new_tree_node(5));
     add_child_right(root, new_tree_node(7));
@@ -142,7 +180,23 @@ int main() {
     add_child_left(root->right, new_tree_node(88));
     add_child_right(root->right, new_tree_node(14));
 
+    // create the second tree
+    add_child_left(root2, new_tree_node(5));
+    add_child_right(root2, new_tree_node(7));
+
+    add_child_left(root2->left, new_tree_node(12));
+    add_child_right(root2->left, new_tree_node(8));
+
+    add_child_left(root2->right, new_tree_node(88));
+    add_child_right(root2->right, new_tree_node(17));
+
     bool answer;
-    answer = bf_search(*tree, 90);
-    printf("the answer is %d\n", answer);
+    answer = bf_search(*tree, 10);
+    printf("the answer is %s\n", answer ? "true" : "false");
+
+    bool trees_are_equal;
+    trees_are_equal = tree_equal(tree->root, tree2->root);
+    printf("are the trees equal? %s\n", trees_are_equal ? "yes" : "no");
+
+    return (0);
 }
