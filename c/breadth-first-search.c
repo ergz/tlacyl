@@ -146,15 +146,20 @@ bool is_leaf(TreeNode* a) {
 
 // determine if two trees are equal
 bool tree_equal(TreeNode* root_a, TreeNode* root_b) {
+    printf("comparing the values: %d ---- %d\n", root_a->value, root_b->value);
+
+    if (root_a->value != root_b->value) {
+        printf("a value difference found....returning FALSE\n");
+        return (false);
+    }
+
     if (is_leaf(root_a) && is_leaf(root_b)) {
+        printf("a terminal leaf\n");
         return (true);
     }
 
     if (is_leaf(root_a) || is_leaf(root_b)) {
-        return (false);
-    }
-
-    if (root_a->value != root_b->value) {
+        printf("a strucutre difference\n");
         return (false);
     }
 
@@ -169,7 +174,7 @@ int main() {
     TreeNode* root = new_tree_node(10);
     TreeNode* root2 = new_tree_node(10);
     Tree*     tree = new_tree(root);
-    Tree*     tree2 = new_tree(root);
+    Tree*     tree2 = new_tree(root2);
 
     add_child_left(root, new_tree_node(5));
     add_child_right(root, new_tree_node(7));
@@ -188,7 +193,7 @@ int main() {
     add_child_right(root2->left, new_tree_node(8));
 
     add_child_left(root2->right, new_tree_node(88));
-    add_child_right(root2->right, new_tree_node(17));
+    add_child_right(root2->right, new_tree_node(14));
 
     bool answer;
     answer = bf_search(*tree, 10);
