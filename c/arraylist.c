@@ -10,6 +10,12 @@ typedef struct i32_ArrayList {
 
 i32_ArrayList* new_arraylist(int cap) {
     i32_ArrayList* arr = malloc(sizeof(i32_ArrayList) + cap * sizeof(int));
+
+    if (arr == NULL) {
+        printf("ERROR: there was an error attemping to allocate memory for i32_ArrayList\n");
+        exit(1);
+    }
+
     arr->capacity = cap;
     arr->index = 0;
 
@@ -24,6 +30,29 @@ void array_append(i32_ArrayList* s, int v) {
         s->data[s->index] = v;
         s->index++;
     }
+}
+
+void resize_arraylist(i32_ArrayList** arr) {
+    int            new_size = (*arr)->capacity * 2;
+    i32_ArrayList* new_arr = realloc((*arr), (sizeof(int) * new_size) + sizeof(i32_ArrayList));
+
+    if (new_arr == NULL) {
+        fprintf(stderr, "ERROR: unable to resize array\n");
+        exit(1);
+    }
+
+    (*arr) = new_arr;
+    (*arr)->capacity = new_size;
+}
+
+void array_append2(i32_ArrayList* arr, int v) {
+    if (arr->index == arr->capacity) {
+        // lets just double the capacity
+        resize_arraylist(&arr);
+        printf("size of arr: %d\n", arr->capacity);
+    }
+
+    array_append(arr, v);
 }
 
 // create an array list and fill in with values from array
@@ -123,6 +152,11 @@ int main() {
     // what if insert at 3 in this first version?
     // this will shift the current 3 to 4, but this causes the 100 to be removed
     array_insert_at(a, 3, 123);
+    print_array_list(a);
+
+    // lets implement v2 versions of these function that will grow
+    // the array when required
+    array_append2(a, 5656);
     print_array_list(a);
 
     // array_append(a, 14);
