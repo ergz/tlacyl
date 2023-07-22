@@ -26,11 +26,33 @@ void array_append(i32_ArrayList* s, int v) {
     }
 }
 
-// insert value at index
-void array_insert_at(i32_ArrayList* arr, int index, int32_t value) {
-    for (int i = index; i > arr->index; i--) {
-        arr->data[i] = arr->data[i - 1];
+// create an array list and fill in with values from array
+i32_ArrayList* new_arraylist_from_array(int cap, int* arr) {
+    i32_ArrayList* out = new_arraylist(cap);
+    for (int i = 0; i < cap; i++) {
+        array_append(out, arr[i]);
     }
+
+    return (out);
+}
+
+// insert value at index
+// the strategy here is to start from the last element in the array and shift it to the right
+// gotta be careful and check that the index + 1 <= capacity otherwise we are in trouble
+void array_insert_at(i32_ArrayList* arr, int at_index, int32_t value) {
+    if (at_index == arr->index) {
+        array_append(arr, value);
+    }
+
+    if (at_index + 1 > arr->capacity) {
+        printf("ERROR: this insert is not possible since the shift required would be over the capacity of the array\n");
+        printf("You requested insert at %d but array capacity is set to %d\n", at_index, arr->capacity);
+    }
+
+    for (int i = arr->index; i >= at_index; i--) {
+        arr->data[i + 1] = arr->data[i];
+    }
+    arr->data[at_index] = value;
 }
 
 int32_t array_get_at(i32_ArrayList* arr, int index) {
@@ -57,11 +79,16 @@ void print_array_list(i32_ArrayList* arr) {
     for (int i = 0; i < arr->index; i++) {
         printf(" %d ", arr->data[i]);
     }
-    printf("]\n");
+    printf("]\t<capacity: %d; index: %d>\n", arr->capacity, arr->index);
 }
 
 int main() {
     i32_ArrayList* a = new_arraylist(5);
+    int            arr_values[5] = {1, 2, 3, 4, 5};
+    i32_ArrayList* b = new_arraylist_from_array(5, arr_values);
+    print_array_list(b);
+
+    // these should all work just fine
     array_append(a, 10);
     print_array_list(a);
     array_append(a, 11);
@@ -72,11 +99,40 @@ int main() {
     print_array_list(a);
     array_append(a, 14);
     print_array_list(a);
+
+    // this one will error
+    array_append(a, 100);
+
+    // so we remove one and then add
     pop_from_array(a);
     print_array_list(a);
-    array_append(a, 15);
+    array_append(a, 100);
     print_array_list(a);
+
+    // now we test inserting different index
     array_insert_at(a, 3, 55);
     print_array_list(a);
-    printf("%d\n", array_get_at(a, 3));
+    array_insert_at(a, 4, 555);
+    print_array_list(a);
+
+    // what happens if try to insert at the last element
+    // this first implementation of the araylist will just overwrite this value
+    array_insert_at(a, 4, 100);
+    print_array_list(a);
+
+    // what if insert at 3 in this first version?
+    // this will shift the current 3 to 4, but this causes the 100 to be removed
+    array_insert_at(a, 3, 123);
+    print_array_list(a);
+
+    // array_append(a, 14);
+    // print_array_list(a);
+    // pop_from_array(a);
+    // print_array_list(a);
+    // array_insert_at(a, 5, 90000);
+    // print_array_list(a);
+    // array_insert_at(a, 3, 1000);
+    // array_insert_at(a, 4, 1000);
+    // array_insert_at(a, 5, 10001);
+    // print_array_list(a);
 }
