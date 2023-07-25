@@ -32,6 +32,7 @@ void array_append(i32_ArrayList* s, int v) {
     }
 }
 
+// takes the address of a pointer
 void resize_arraylist(i32_ArrayList** arr) {
     int            new_size = (*arr)->capacity * 2;
     i32_ArrayList* new_arr = realloc((*arr), (sizeof(int) * new_size) + sizeof(i32_ArrayList));
@@ -49,10 +50,12 @@ void array_append2(i32_ArrayList* arr, int v) {
     if (arr->index == arr->capacity) {
         // lets just double the capacity
         resize_arraylist(&arr);
-        printf("size of arr: %d\n", arr->capacity);
+        printf("Resized: size of arr: %d\n", arr->capacity);
     }
 
+    printf("Before append: index = %d\n", arr->index);
     array_append(arr, v);
+    printf("After append: index = %d\n", arr->index);
 }
 
 // create an array list and fill in with values from array
@@ -156,7 +159,9 @@ int main() {
 
     // lets implement v2 versions of these function that will grow
     // the array when required
+    printf("calling the version 2 of the append function\n");
     array_append2(a, 5656);
+    printf("the size of the array is %d, and the cap is %d\n", a->index, a->capacity);
     print_array_list(a);
 
     // array_append(a, 14);
