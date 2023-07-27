@@ -8,8 +8,8 @@ typedef struct i32_ArrayList {
     int32_t data[];    // the data
 } i32_ArrayList;
 
-i32_ArrayList* new_arraylist(int cap) {
-    i32_ArrayList* arr = malloc(sizeof(i32_ArrayList) + cap * sizeof(int));
+i32_ArrayList *new_arraylist(int cap) {
+    i32_ArrayList *arr = malloc(sizeof(i32_ArrayList) + cap * sizeof(int));
 
     if (arr == NULL) {
         printf("ERROR: there was an error attemping to allocate memory for i32_ArrayList\n");
@@ -23,7 +23,7 @@ i32_ArrayList* new_arraylist(int cap) {
 }
 
 // add to end of the array
-void array_append(i32_ArrayList* s, int v) {
+void array_append(i32_ArrayList *s, int v) {
     if (s->index == s->capacity) {
         printf("you attempted to insert %d, but array is at capacity cannot add mode values\n", v);
     } else {
@@ -33,34 +33,35 @@ void array_append(i32_ArrayList* s, int v) {
 }
 
 // takes the address of a pointer
-void resize_arraylist(i32_ArrayList** arr) {
-    int            new_size = (*arr)->capacity * 2;
-    i32_ArrayList* new_arr = realloc((*arr), (sizeof(int) * new_size) + sizeof(i32_ArrayList));
+i32_ArrayList *resize_arraylist(i32_ArrayList *arr) {
+    int new_cap = arr->capacity * 2;
+
+    i32_ArrayList *new_arr = (i32_ArrayList *)realloc(arr, (sizeof(int) * new_cap) + sizeof(i32_ArrayList));
 
     if (new_arr == NULL) {
         fprintf(stderr, "ERROR: unable to resize array\n");
         exit(1);
     }
 
-    (*arr) = new_arr;
-    (*arr)->capacity = new_size;
+    new_arr->capacity = new_cap;
+    return (new_arr);
 }
 
-void array_append2(i32_ArrayList* arr, int v) {
+void array_append2(i32_ArrayList **arr_ptr, int v) {
+    i32_ArrayList *arr = *arr_ptr;
     if (arr->index == arr->capacity) {
-        // lets just double the capacity
-        resize_arraylist(&arr);
-        printf("Resized: size of arr: %d\n", arr->capacity);
-    }
+        i32_ArrayList *new_arr = resize_arraylist(arr);
+        *arr_ptr = new_arr;
+        array_append(*arr_ptr, v);
 
-    printf("Before append: index = %d\n", arr->index);
-    array_append(arr, v);
-    printf("After append: index = %d\n", arr->index);
+    } else {
+        array_append(arr, v);
+    }
 }
 
 // create an array list and fill in with values from array
-i32_ArrayList* new_arraylist_from_array(int cap, int* arr) {
-    i32_ArrayList* out = new_arraylist(cap);
+i32_ArrayList *new_arraylist_from_array(int cap, int *arr) {
+    i32_ArrayList *out = new_arraylist(cap);
     for (int i = 0; i < cap; i++) {
         array_append(out, arr[i]);
     }
@@ -71,7 +72,7 @@ i32_ArrayList* new_arraylist_from_array(int cap, int* arr) {
 // insert value at index
 // the strategy here is to start from the last element in the array and shift it to the right
 // gotta be careful and check that the index + 1 <= capacity otherwise we are in trouble
-void array_insert_at(i32_ArrayList* arr, int at_index, int32_t value) {
+void array_insert_at(i32_ArrayList *arr, int at_index, int32_t value) {
     if (at_index == arr->index) {
         array_append(arr, value);
     }
@@ -87,11 +88,11 @@ void array_insert_at(i32_ArrayList* arr, int at_index, int32_t value) {
     arr->data[at_index] = value;
 }
 
-int32_t array_get_at(i32_ArrayList* arr, int index) {
+int32_t array_get_at(i32_ArrayList *arr, int index) {
     return (arr->data[index]);
 }
 
-int32_t pop_from_array(i32_ArrayList* s) {
+int32_t pop_from_array(i32_ArrayList *s) {
     if (s->index == 0) {
         printf("there is nothing to remove!\n");
         return (-99);
@@ -103,10 +104,7 @@ int32_t pop_from_array(i32_ArrayList* s) {
     }
 }
 
-void grow_array_list(i32_ArrayList* s, int amount) {
-}
-
-void print_array_list(i32_ArrayList* arr) {
+void print_array_list(i32_ArrayList *arr) {
     printf("[");
     for (int i = 0; i < arr->index; i++) {
         printf(" %d ", arr->data[i]);
@@ -115,9 +113,9 @@ void print_array_list(i32_ArrayList* arr) {
 }
 
 int main() {
-    i32_ArrayList* a = new_arraylist(5);
+    i32_ArrayList *a = new_arraylist(5);
     int            arr_values[5] = {1, 2, 3, 4, 5};
-    i32_ArrayList* b = new_arraylist_from_array(5, arr_values);
+    i32_ArrayList *b = new_arraylist_from_array(5, arr_values);
     print_array_list(b);
 
     // these should all work just fine
@@ -156,14 +154,13 @@ int main() {
     // this will shift the current 3 to 4, but this causes the 100 to be removed
     array_insert_at(a, 3, 123);
     print_array_list(a);
-
-    // lets implement v2 versions of these function that will grow
-    // the array when required
-    printf("calling the version 2 of the append function\n");
-    array_append2(a, 5656);
-    printf("the size of the array is %d, and the cap is %d\n", a->index, a->capacity);
+    array_append2(&a, 5000);
     print_array_list(a);
 
+    printf("--------------------------------\n");
+    print_array_list(b);
+    array_append2(&b, 100);
+    print_array_list(b);
     // array_append(a, 14);
     // print_array_list(a);
     // pop_from_array(a);

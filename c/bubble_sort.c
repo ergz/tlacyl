@@ -22,6 +22,25 @@ void bubble_sort(int arr[], int len) {
     printf("total iterations: %d\n", total_iterations);
 }
 
+void swap(int* a, int* b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+void bubble_sort_3(int arr[], int len) {
+    int swaps = 1;
+    while (swaps > 0) {
+        swaps = 0;
+        for (int i = 0; i < len - 1; i++) {
+            if (arr[i] > arr[i + 1]) {
+                swap(&arr[i], &arr[i + 1]);
+                swaps++;
+            }
+        }
+    }
+}
+
 void print_array(int* arr, int len) {
     printf("[ ");
     for (int i = 0; i < len; i++) {
@@ -31,10 +50,10 @@ void print_array(int* arr, int len) {
 }
 
 int main() {
-    int arr[5] = {2, 1, 3, 4, 5};
+    int arr[10] = {2, 1, 3, 4, 5, 7, 33, 7, 8, 20};
     printf("before the sort:\n");
-    print_array(arr, 5);
-    bubble_sort(arr, 5);
+    print_array(arr, 10);
+    bubble_sort_3(arr, 10);
     printf("after the sort:\n");
-    print_array(arr, 5);
+    print_array(arr, 10);
 }
