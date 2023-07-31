@@ -14,34 +14,34 @@ parse it as a tree???
 
 typedef struct Node {
     int          value;
-    struct Node* prev;
+    struct Node *prev;
 } Node;
 
 typedef struct Stack {
     int   len;
-    Node* head;
+    Node *head;
 } Stack;
 
-Stack* new_stack() {
-    Stack* s = malloc(sizeof(Stack));
+Stack *new_stack() {
+    Stack *s = malloc(sizeof(Stack));
     s->head = NULL;
     s->len = 0;
     return (s);
 }
 
-Node* new_node(int value) {
-    Node* n = malloc(sizeof(Node));
+Node *new_node(int value) {
+    Node *n = malloc(sizeof(Node));
     n->prev = NULL;
     n->value = value;
 
     return (n);
 }
 
-void json_file_to_tree(char* filepath) {
+void json_file_to_tree(char *filepath) {
     // TODO!!!!
 }
 
-void push(Stack* stack, Node* node) {
+void push(Stack *stack, Node *node) {
     if (stack->len == 0) {
         stack->head = node;
         stack->len++;
@@ -52,9 +52,9 @@ void push(Stack* stack, Node* node) {
     }
 }
 
-int pop(Stack* stack) {
+int pop(Stack *stack) {
     if (stack->len > 0) {
-        Node* node = stack->head;
+        Node *node = stack->head;
         int   node_val = node->value;
         stack->head = node->prev;
         stack->len--;
@@ -67,12 +67,12 @@ int pop(Stack* stack) {
 
 typedef struct IntBinaryNode {
     int                   value;
-    struct IntBinaryNode* left;
-    struct IntBinaryNode* right;
+    struct IntBinaryNode *left;
+    struct IntBinaryNode *right;
 } IntBinaryNode;
 
-IntBinaryNode* new_int_binary_node(int value) {
-    IntBinaryNode* n = malloc(sizeof(IntBinaryNode));
+IntBinaryNode *new_int_binary_node(int value) {
+    IntBinaryNode *n = malloc(sizeof(IntBinaryNode));
     n->left = NULL;
     n->right = NULL;
     n->value = value;
@@ -81,17 +81,17 @@ IntBinaryNode* new_int_binary_node(int value) {
 }
 
 typedef struct BinaryTree {
-    IntBinaryNode* root;
+    IntBinaryNode *root;
 } BinaryTree;
 
-BinaryTree* new_binary_tree(IntBinaryNode* n) {
-    BinaryTree* b = malloc(sizeof(BinaryTree));
+BinaryTree *new_binary_tree(IntBinaryNode *n) {
+    BinaryTree *b = malloc(sizeof(BinaryTree));
     b->root = n;
 
     return (b);
 }
 
-void add_child_node(IntBinaryNode* parent, IntBinaryNode* child, char position) {
+void add_child_node(IntBinaryNode *parent, IntBinaryNode *child, char position) {
     if (position != 'l' && position != 'r') {
         printf("ERROR: position must be either (l)eft or (r)ight\n");
         exit(1);
@@ -115,7 +115,7 @@ void add_child_node(IntBinaryNode* parent, IntBinaryNode* child, char position) 
 }
 
 // prints the bottom row of a tree
-void print_binary_tree(IntBinaryNode* node) {
+void print_binary_tree(IntBinaryNode *node) {
     if (node->left == NULL && node->right == NULL) {
         printf("<%d>\n", node->value);
     } else {
@@ -124,7 +124,7 @@ void print_binary_tree(IntBinaryNode* node) {
     }
 }
 
-void walk_tree_pre_order(IntBinaryNode* current_node, Stack* stack) {
+void walk_tree_pre_order(IntBinaryNode *current_node, Stack *stack) {
     if (current_node->left == NULL && current_node->right == NULL) {
         push(stack, new_node(current_node->value));
     } else {
@@ -134,7 +134,7 @@ void walk_tree_pre_order(IntBinaryNode* current_node, Stack* stack) {
     }
 }
 
-void walk_tree_post_order(IntBinaryNode* current_node, Stack* stack) {
+void walk_tree_post_order(IntBinaryNode *current_node, Stack *stack) {
     if (current_node->left == NULL && current_node->right == NULL) {
         push(stack, new_node(current_node->value));
     } else {
@@ -144,7 +144,7 @@ void walk_tree_post_order(IntBinaryNode* current_node, Stack* stack) {
     }
 }
 
-void walk_tree_in_order(IntBinaryNode* current_node, Stack* stack) {
+void walk_tree_in_order(IntBinaryNode *current_node, Stack *stack) {
     if (current_node->left == NULL && current_node->right == NULL) {
         push(stack, new_node(current_node->value));
     } else {
@@ -154,7 +154,7 @@ void walk_tree_in_order(IntBinaryNode* current_node, Stack* stack) {
     }
 }
 
-void print_stack(Stack* stack) {
+void print_stack(Stack *stack) {
     if (stack->len == 0) {
         printf("empty stack\n");
     } else {
@@ -167,13 +167,13 @@ void print_stack(Stack* stack) {
     }
 }
 
-void print_stack_v2(Stack* stack) {
+void print_stack_v2(Stack *stack) {
     if (stack->len == 0) {
         printf("ERROR: empty stack\n");
     } else {
         printf("[ ");
         int   counter = 0;
-        Node* curr = stack->head;
+        Node *curr = stack->head;
         while (counter < stack->len) {
             printf("%d ", curr->value);
             curr = curr->prev;
@@ -190,8 +190,8 @@ int main() {
           10 11   44 77
 
      */
-    IntBinaryNode* root_node = new_int_binary_node(12);
-    BinaryTree*    tree = new_binary_tree(root_node);
+    IntBinaryNode *root_node = new_int_binary_node(12);
+    BinaryTree    *tree = new_binary_tree(root_node);
 
     add_child_node(root_node, new_int_binary_node(4), 'l');
     add_child_node(root_node, new_int_binary_node(6), 'r');
@@ -201,9 +201,9 @@ int main() {
     add_child_node(root_node->right, new_int_binary_node(44), 'l');
     add_child_node(root_node->right, new_int_binary_node(77), 'r');
 
-    Stack* stack = new_stack();
-    Stack* post_stack = new_stack();
-    Stack* in_order_stack = new_stack();
+    Stack *stack = new_stack();
+    Stack *post_stack = new_stack();
+    Stack *in_order_stack = new_stack();
     walk_tree_pre_order(root_node, stack);
     walk_tree_post_order(root_node, post_stack);
     walk_tree_in_order(root_node, in_order_stack);
