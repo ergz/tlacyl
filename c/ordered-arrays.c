@@ -17,6 +17,7 @@ typedef struct FixedOrderedArray {
     int data[];
 } FixedOrderedArray;
 
+
 FixedOrderedArray *new_fixed_ordered_array(int capacity) {
     FixedOrderedArray *arr = malloc(sizeof(FixedOrderedArray) + (sizeof(int) * capacity));
     arr->capacity = capacity;
@@ -85,6 +86,7 @@ void print_array_list(FixedOrderedArray *arr) {
     for (int i = 0; i < arr->index; i++) {
         printf(" %d ", arr->data[i]);
     }
+
     printf("]\t<capacity: %d; index: %d>\n", arr->capacity, arr->index);
 }
 

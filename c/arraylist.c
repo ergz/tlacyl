@@ -12,7 +12,9 @@ i32_ArrayList *new_arraylist(int cap) {
     i32_ArrayList *arr = malloc(sizeof(i32_ArrayList) + cap * sizeof(int));
 
     if (arr == NULL) {
-        printf("ERROR: there was an error attemping to allocate memory for i32_ArrayList\n");
+        printf(
+            "ERROR: there was an error attemping to allocate memory for "
+            "i32_ArrayList\n");
         exit(1);
     }
 
@@ -32,7 +34,8 @@ void do_append(i32_ArrayList *s, int v) {
 i32_ArrayList *resize_arraylist(i32_ArrayList *arr) {
     int new_cap = arr->capacity * 2;
 
-    i32_ArrayList *new_arr = (i32_ArrayList *)realloc(arr, (sizeof(int) * new_cap) + sizeof(i32_ArrayList));
+    i32_ArrayList *new_arr = (i32_ArrayList *)realloc(
+        arr, (sizeof(int) * new_cap) + sizeof(i32_ArrayList));
 
     if (new_arr == NULL) {
         fprintf(stderr, "ERROR: unable to resize array\n");
@@ -66,8 +69,9 @@ i32_ArrayList *new_arraylist_from_array(int cap, int *arr) {
 }
 
 // insert value at index
-// the strategy here is to start from the last element in the array and shift it to the right
-// gotta be careful and check that the index + 1 <= capacity otherwise we are in trouble
+// the strategy here is to start from the last element in the array and shift it
+// to the right gotta be careful and check that the index + 1 <= capacity
+// otherwise we are in trouble
 void array_insert_at(i32_ArrayList *arr, int at_index, int32_t value) {
     if (at_index == arr->index) {
         do_append(arr, value);
@@ -75,8 +79,11 @@ void array_insert_at(i32_ArrayList *arr, int at_index, int32_t value) {
 
     // TODO: eh this should be much better
     if (at_index + 1 > arr->capacity) {
-        printf("ERROR: this insert is not possible since the shift required would be over the capacity of the array\n");
-        printf("You requested insert at %d but array capacity is set to %d\n", at_index, arr->capacity);
+        printf(
+            "ERROR: this insert is not possible since the shift required "
+            "would be over the capacity of the array\n");
+        printf("You requested insert at %d but array capacity is set to %d\n",
+               at_index, arr->capacity);
     }
 
     for (int i = arr->index; i >= at_index; i--) {

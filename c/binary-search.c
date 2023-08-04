@@ -32,7 +32,7 @@ bool binary_search(int *arr, int len, int val) {
 }
 
 int main() {
-    int  arr[8] = {1, 3, 4, 5, 6, 7, 8, 11};
+    int  arr[8] = {1, 3, 4, 5, 6, 7, 8, 10};
     bool result = binary_search(arr, 8, 11);
     printf("the result is %s\n", result ? "true" : "false");
 }
