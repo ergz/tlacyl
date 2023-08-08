@@ -6,6 +6,7 @@ def insertion_sort(array):
         while position >= 0:
             if array[position] > temp_value:
                 array[position + 1] = array[position]
+                position -= 1
             else:
                 break
         array[position + 1] = temp_value
