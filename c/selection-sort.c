@@ -7,18 +7,16 @@ void swap(int *a, int *b) {
 }
 
 void selection_sort(int arr[], int len) {
-    int curr_low;
-    int low_index = 0;
-    int pass_index = 0;
-
-    for (int i = 0; i < len; i++) {
-        low_index = i;
-        for (int j = i + 1; j < len; j++) {
-            if (arr[i] > arr[j]) {  // if we encounter a new low
-                low_index = j;
+    int lo_index;
+    for (int i = 0; i < len; i++) {          // keep track of pass
+        lo_index = i;                        // low index always starts as the pass iteration
+        for (int j = i + 1; j < len; j++) {  // keep track of array comparisons
+            if (arr[j] < arr[i]) {
+                lo_index = j;
             }
-        }
-        swap(&arr[i], &arr[low_index]);
+        }  // after done with this loop we swap the value at lo_index to the current pass index
+
+        swap(&arr[i], &arr[lo_index]);
     }
 }
 
@@ -31,7 +29,7 @@ void print_array(int arr[], int len) {
 }
 
 int main() {
-    int arr[6] = {5, 3, 4, 2, 1, 7};
-    selection_sort(arr, 6);
-    print_array(arr, 6);
+    int arr[5] = {5, 4, 3, 2, 1};
+    selection_sort(arr, 5);
+    print_array(arr, 5);
 }
