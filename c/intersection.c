@@ -48,6 +48,7 @@ ArrayList *intersection(int left[], int right[], int left_len, int right_len) {
         for (int j = 0; j < right_len; j++) {
             if (left[i] == right[j]) {
                 push(arr, left[i]);
+                break;
             }
         }
     }
