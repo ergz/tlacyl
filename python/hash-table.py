@@ -35,13 +35,14 @@ def insert_at_hash(key, value, container):
         existing_value = container[key_hash]
 
 
+def get_at_hash(key, container):
+    return container[hash(key)]
+
+
 container = [None for i in range(15)]
 
 insert_at_hash("bad", "evil", container)
+insert_at_hash("dab", "good", container)
 
 
-container[hash("bad")] = "evil"
-
-
-d = {"bad": "evil"}
-d["bad"]
+get_at_hash("dab", container)
