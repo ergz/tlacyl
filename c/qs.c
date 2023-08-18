@@ -38,7 +38,7 @@ void quick_sort(int arr[], int lo, int hi) {
 
 int main() {
     int array_len = 5;
-    int arr[5] = {5, 4, 3, 2, 1};
+    int arr[5] = {0, 2, 5, 1, 6};
     quick_sort(arr, 0, array_len - 1);
 
     printf("[ ");
