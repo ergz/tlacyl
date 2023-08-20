@@ -14,7 +14,7 @@ def partition(arr, lo, hi):
 def quicksort(arr, lo, hi):
     if lo < hi:
         part = partition(arr, lo, hi)
-        partition(arr, lo, part - 1)
-        partition(arr, part + 1, hi)
+        quicksort(arr, lo, part - 1)
+        quicksort(arr, part + 1, hi)
 
 
