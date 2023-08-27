@@ -2,14 +2,23 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define MAX_HASH_TABLE_SIZE 16
+
+typedef struct KV {
+    char *key;
+    char *value;
+    KV    data[MAX_HASH_TABLE_SIZE];
+} KV;
+
 typedef struct HashTable {
-    char *data[16];
+    KV data[MAX_HASH_TABLE_SIZE];
 } HashTable;
 
 HashTable *new_hashtable() {
     HashTable *ht = malloc(sizeof(HashTable));
-    for (int i = 0; i < 16; i++) {
-        ht->data[i] = NULL;
+    for (int i = 0; i < MAX_HASH_TABLE_SIZE; i++) {
+        ht->data[i].key = NULL;
+        ht->data[i].value = NULL;
     }
 
     return (ht);
@@ -35,35 +44,67 @@ int hash(char *word) {
     return accum % 16;
 }
 
-char *get(HashTable *h, char *key) {
-    int hash_val = hash(key);
-    return h->data[hash_val];
-}
-
-void insert(HashTable *h, char *key, char *value) {
-    int hashed_key = hash(key);
-
-    if (h->data[hashed_key] != NULL) {
-        fprintf(stderr, "ERROR: collision!");
-        exit(1);
+KV *find_KV_in_ht(HashTable h, char *key) {
+    for (size_t i = 0; i < MAX_HASH_TABLE_SIZE; i++) {
+        if ((h.data[i].key != NULL) && (strcmp(h.data[i].key, key) == 0)) {
+            return (&h.data[i]);
+        }
     }
 
-    h->data[hashed_key] = value;
+    return (NULL);
 }
 
-void delete(HashTable *h, char *key) {
-    int hashed_key = hash(key);
-    h->data[hashed_key] = NULL;
+char *get_value(HashTable ht, char *key) {
+    KV *kv = find_KV_in_ht(ht, key);
+
+    return kv->value;
 }
+
+void insert_kv(HashTable *ht, char *key, char *value) {
+    KV *kv = find_KV_in_ht(*ht, key);
+
+    if (kv == NULL) {
+        int hash_val = hash(key);
+        if (ht->data[hash_val].key != NULL) {  // value with has exists
+            // come up with clever way to resolve the collision
+        } else {
+            ht->data[hash_val].key = key;
+            ht->data[hash_val].value = value;
+        }
+    } else {
+        printf("key already in HashTable\n");
+    }
+}
+
+// char *get(HashTable *h, char *key) {
+//     int hash_val = hash(key);
+//     return h->data[hash_val];
+// }
+
+// void insert(HashTable *h, char *key, char *value) {
+//     int hashed_key = hash(key);
+
+//     if (h->data[hashed_key] != NULL) {
+//         fprintf(stderr, "ERROR: collision!");
+//         exit(1);
+//     }
+
+//     h->data[hashed_key] = value;
+// }
+
+// void delete(HashTable *h, char *key) {
+//     int hashed_key = hash(key);
+//     h->data[hashed_key] = NULL;
+// }
 
 int main() {
-    HashTable *hash_table = new_hashtable();
-    char      *key = "hello";
-    insert(hash_table, key, "world");
-    insert(hash_table, "hlleo", "world");
-    char *res = get(hash_table, "hello");
+    HashTable *h = new_hashtable();
 
-    printf("the value at key '%s' is '%s'", key, res);
+    // test
+    insert_kv(h, "hello", "world");
+    KV   *kv = find_KV_in_ht(*h, "hello");
+    char *result = get_value(*h, "hello");
+    printf("the value corresponding to the key 'hello' is: '%s'", result);
 
     return 0;
 }
